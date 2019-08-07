@@ -39,8 +39,14 @@ const initEvent = () => {
     }
   });
 
+  $video.addEventListener('durationchange', () => {
+    renderCurrentTime();
+    renderTotalTime();
+  });
+
   $video.addEventListener('timeupdate', function (){
     renderTrackPlayBar();
+    renderCurrentTime();
   });
 
   $wrapBar.addEventListener('mousedown', function(e) {
@@ -125,8 +131,21 @@ const calculateCurrentTime = (e) => {
   $video.currentTime = currentTime;
 };
 
-initEvent();
+const renderCurrentTime = () => {
+  const $currentTime = document.querySelector('#current-time');
+  $currentTime.innerHTML = setPlayTimeFormat($video.currentTime);
+};
 
+const renderTotalTime = () => {
+  const $totalTime = document.querySelector('#total-time');
+  $totalTime.innerHTML = setPlayTimeFormat($video.duration);
+};
+
+const setPlayTimeFormat = (time) => {
+  return Math.floor(time);
+}
+
+initEvent();
 
 
 
