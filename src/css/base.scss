@@ -22,7 +22,7 @@ $color-blue: blue;
     position: relative;
     width: 100%;
     height: 5px;
-    background-color: rgba($color-black, .5);
+    background-color: rgba($color-black, .2);
     transition: height .2s;
 
     &:hover {
@@ -34,6 +34,15 @@ $color-blue: blue;
         width: 20px;
         height: 20px;
       }
+    }
+
+    .loaded-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background-color: rgba($color-black, .8);
     }
 
     .play-bar {

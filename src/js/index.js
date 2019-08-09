@@ -1,10 +1,12 @@
 import '../css/base.scss';
+
 // dom
 const $video = document.querySelector('video');
 const $controller = document.querySelector('#controller');
 const $barTrack = document.querySelector('#bar-track');
 const $wrapBar = document.querySelector('#wrap-bar');
 const $playBar = document.querySelector('#play-bar');
+const $loadedBar = document.querySelector('#loaded-bar');
 const $trackPoint = document.querySelector('#track-point');
 // variable
 let isSeeking = false; // track bar 탐색중인가
@@ -40,6 +42,24 @@ const initEvent = () => {
       default:
         break;
     }
+  });
+
+  $video.addEventListener('loadeddata', (e) => {
+    renderLoadedBar(setPercentOfLoading(0));
+  });
+
+  $video.addEventListener('progress', (e) => {
+    let bufferIndex = 0;
+    const currentTime = $video.currentTime;
+    const buffered = $video.buffered;
+    const bufferLength = buffered.length;
+    if(bufferLength === 0) return;
+    for(let i = 0; i < bufferLength - 1; i++) {
+      if(!(buffered.start(bufferIndex) <= currentTime && buffered.end(bufferIndex) >= currentTime)) {
+        bufferIndex++;
+      }
+    }
+    renderLoadedBar(setPercentOfLoading(bufferIndex));
   });
 
   $video.addEventListener('durationchange', () => {
@@ -117,18 +137,7 @@ const handleEvent = {
   }
 };
 
-const setPosition = () => {
-  const currentTime = $video.currentTime;
-  const duration = $video.duration;
-  return 100 * (currentTime / duration) + '%';
-};
-
-// track-bar play-bar 렌더링
-const renderTrackPlayBar = () => {  
-  $playBar.style.width = setPosition();
-  $trackPoint.style.left = setPosition();
-};
-
+/* 값 계산 */
 // currentTime 계산하기
 const calculateCurrentTime = (e) => {
   const wrapBarWidth = $wrapBar.getBoundingClientRect().width;
@@ -146,6 +155,31 @@ const calculateCurrentTime = (e) => {
   $video.currentTime = currentTime;
 };
 
+const setPlayTimeFormat = (time) => {
+  return Math.floor(time);
+}
+
+const setPercentOfLoading = (bufferIndex) => {
+  return 100 * ($video.buffered.end(bufferIndex) / $video.duration);
+};
+
+const setPosition = () => {
+  const currentTime = $video.currentTime;
+  const duration = $video.duration;
+  return 100 * (currentTime / duration);
+};
+
+/* 렌더 */
+// track-bar play-bar 렌더링
+const renderTrackPlayBar = () => {  
+  $playBar.style.width = setPosition() + '%';
+  $trackPoint.style.left = setPosition() + '%';
+};
+
+const renderLoadedBar = (percentOfLoading) => {
+  $loadedBar.style.width = percentOfLoading + '%';
+};
+
 const renderCurrentTime = () => {
   const $currentTime = document.querySelector('#current-time');
   $currentTime.innerHTML = setPlayTimeFormat($video.currentTime);
@@ -155,10 +189,6 @@ const renderTotalTime = () => {
   const $totalTime = document.querySelector('#total-time');
   $totalTime.innerHTML = setPlayTimeFormat($video.duration);
 };
-
-const setPlayTimeFormat = (time) => {
-  return Math.floor(time);
-}
 
 initEvent();
 
