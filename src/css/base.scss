@@ -42,7 +42,16 @@ $color-blue: blue;
       left: 0;
       width: 0%;
       height: 100%;
-      background-color: rgba($color-black, .8);
+      background-color: rgba($color-black, .5);
+    }
+
+    .thumb-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background-color: rgba($color-black, .7);
     }
 
     .play-bar {

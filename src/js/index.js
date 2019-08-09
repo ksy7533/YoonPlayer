@@ -1,4 +1,5 @@
 import '../css/base.scss';
+import {throttle} from './util';
 
 // dom
 const $video = document.querySelector('video');
@@ -6,6 +7,7 @@ const $controller = document.querySelector('#controller');
 const $barTrack = document.querySelector('#bar-track');
 const $wrapBar = document.querySelector('#wrap-bar');
 const $playBar = document.querySelector('#play-bar');
+const $thumbBar = document.querySelector('#thumb-bar');
 const $loadedBar = document.querySelector('#loaded-bar');
 const $trackPoint = document.querySelector('#track-point');
 // variable
@@ -48,11 +50,13 @@ const initEvent = () => {
     renderLoadedBar(setPercentOfLoading(0));
   });
 
-  $video.addEventListener('progress', (e) => {
+  $video.addEventListener('progress', () => {
+    
     let bufferIndex = 0;
     const currentTime = $video.currentTime;
     const buffered = $video.buffered;
     const bufferLength = buffered.length;
+    console.log(bufferLength)
     if(bufferLength === 0) return;
     for(let i = 0; i < bufferLength - 1; i++) {
       if(!(buffered.start(bufferIndex) <= currentTime && buffered.end(bufferIndex) >= currentTime)) {
@@ -71,6 +75,19 @@ const initEvent = () => {
     renderTrackPlayBar();
     renderCurrentTime();
   });
+
+  $wrapBar.addEventListener('mouseleave', function(e) {
+    renderThumbBar(0);
+  });
+
+  $wrapBar.addEventListener('mousemove', throttle(function(e) {
+    if(isSeeking) { // 탐색중일 떄는 thumbBar가 렌더링 되지 않는다.
+      renderThumbBar(0);
+      return;
+    }
+    const percent = calculatePecentOfPointOffsetX(e);
+    renderThumbBar(percent);
+  }, 10));
 
   $wrapBar.addEventListener('mousedown', function(e) {
     e.stopPropagation();
@@ -140,6 +157,14 @@ const handleEvent = {
 /* 값 계산 */
 // currentTime 계산하기
 const calculateCurrentTime = (e) => {
+  const percent = calculatePecentOfPointOffsetX(e);
+  const duration = $video.duration;
+  const currentTime = duration * percent;
+  $video.currentTime = currentTime;
+};
+
+/* wrapBar에서 마우스 이벤트가 발생하는 위치를 pecent로 계산 */
+const calculatePecentOfPointOffsetX = (e) => {
   const wrapBarWidth = $wrapBar.getBoundingClientRect().width;
   const wrapBarPositionX = $wrapBar.getBoundingClientRect().x;
   const pageX = e.pageX;
@@ -149,10 +174,7 @@ const calculateCurrentTime = (e) => {
   } else if(0 > pointOffsetX) {
     pointOffsetX = 0;
   }
-  const percent = pointOffsetX / wrapBarWidth;
-  const duration = $video.duration;
-  const currentTime = duration * percent;
-  $video.currentTime = currentTime;
+  return pointOffsetX / wrapBarWidth;
 };
 
 const setPlayTimeFormat = (time) => {
@@ -174,6 +196,10 @@ const setPosition = () => {
 const renderTrackPlayBar = () => {  
   $playBar.style.width = setPosition() + '%';
   $trackPoint.style.left = setPosition() + '%';
+};
+
+const renderThumbBar = (percent) => {
+  $thumbBar.style.width = (100 * percent)+ '%';
 };
 
 const renderLoadedBar = (percentOfLoading) => {
