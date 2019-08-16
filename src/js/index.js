@@ -46,24 +46,26 @@ const initEvent = () => {
     }
   });
 
-  $video.addEventListener('loadeddata', (e) => {
+  $video.addEventListener('loadeddata', () => {
+    console.log('loadeddata');
+    if($video.buffered.length === 0) return;
     renderLoadedBar(setPercentOfLoading(0));
   });
 
+  /* https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/buffering_seeking_time_ranges 참고 */
   $video.addEventListener('progress', () => {
-    
-    let bufferIndex = 0;
-    const currentTime = $video.currentTime;
-    const buffered = $video.buffered;
-    const bufferLength = buffered.length;
-    console.log(bufferLength)
-    if(bufferLength === 0) return;
-    for(let i = 0; i < bufferLength - 1; i++) {
-      if(!(buffered.start(bufferIndex) <= currentTime && buffered.end(bufferIndex) >= currentTime)) {
-        bufferIndex++;
+    console.log('progress')
+    const duration =  $video.duration;
+    const bufferedLength = $video.buffered.length;
+    if (duration > 0) {
+      for (let i = 0; i < bufferedLength; i++) {
+        if ($video.buffered.start(bufferedLength - 1 - i) < $video.currentTime) {
+          console.log('in')
+          renderLoadedBar(setPercentOfLoading(bufferedLength - 1 - i));
+          break;
+        }
       }
     }
-    renderLoadedBar(setPercentOfLoading(bufferIndex));
   });
 
   $video.addEventListener('durationchange', () => {
@@ -102,12 +104,14 @@ const initEvent = () => {
     e.stopPropagation();
     if(!isSeeking) return;
     isSeeking = false;
+    handleEvent.play();
     document.removeEventListener('mousemove', handlePointMoveEvent);
   });
 };
 
 const handlePointMoveEvent = (e) => {
   if(!isSeeking) return;
+  handleEvent.pause(); // 탐색중일때 일시정지 하지만 현재시간의 프레임은 노출시키기
   calculateCurrentTime(e);
   renderTrackPlayBar();
 }

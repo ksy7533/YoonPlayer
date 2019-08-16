@@ -18,6 +18,14 @@ $color-blue: blue;
   width: 520px;
   padding: 0 20px;
 
+  /* drag 금지 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   .wrap-bar {
     position: relative;
     width: 100%;
@@ -60,7 +68,7 @@ $color-blue: blue;
       left: 0;
       width: 0%;
       height: 100%;
-      background-color: rgba($color-blue, .8);
+      background-color: rgba($color-blue, .6);
     }
 
     .track-point {
