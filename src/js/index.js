@@ -15,6 +15,8 @@ let isSeeking = false; // track bar 탐색중인가
 // options
 $video.controls = true; // controller 노출
 
+let videoState = -1; // -1 정지, 0 일시정지, 1 플레이, 2로딩중, 3완료, 
+
 // event init
 const initEvent = () => {
   $controller.addEventListener('click', function(e) {
@@ -60,12 +62,32 @@ const initEvent = () => {
     if (duration > 0) {
       for (let i = 0; i < bufferedLength; i++) {
         if ($video.buffered.start(bufferedLength - 1 - i) < $video.currentTime) {
-          console.log('in')
           renderLoadedBar(setPercentOfLoading(bufferedLength - 1 - i));
           break;
         }
       }
     }
+  });
+
+  $video.addEventListener('pause', () => {
+    console.log('pause');
+    videoState = 0;
+  });
+  
+  $video.addEventListener('play', () => {
+    console.log('play');
+    videoState = 1;
+  });
+
+  /* 버퍼링 때문에 중지 되었다가 다시 플레이 시작할때 */
+  $video.addEventListener('playing', () => {
+    console.log('playing');
+    videoState = 1;
+  });
+
+  $video.addEventListener('wating', () => {
+    console.log('wating');
+
   });
 
   $video.addEventListener('durationchange', () => {
@@ -104,7 +126,10 @@ const initEvent = () => {
     e.stopPropagation();
     if(!isSeeking) return;
     isSeeking = false;
-    handleEvent.play();
+    console.log(videoState)
+    if(videoState === 1) {
+      handleEvent.play();
+    }
     document.removeEventListener('mousemove', handlePointMoveEvent);
   });
 };
