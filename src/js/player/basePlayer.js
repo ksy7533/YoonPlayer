@@ -52,7 +52,7 @@ class BasePlayer {
     let arrComponent = [];
     arrComponent.push(new VideoComponent({wrapperPlayer, cloneContainer}));
     arrComponent.push(new ControllerComponent({wrapperPlayer}));
-    arrComponent.forEach(component => wrapperPlayer.appendChild(component.wrapperElement));
+    arrComponent.forEach(component => wrapperPlayer.appendChild(component.render()));
   }
 
   /**

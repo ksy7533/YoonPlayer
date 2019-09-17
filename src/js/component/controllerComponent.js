@@ -8,15 +8,9 @@ const {
 class ControllerComponent extends BaseComponent {
   constructor(params) {
     super(params.wrapperPlayer);
-
-    this._init();
   }
 
-  _init() {
-    this.wrapperElement = this._render();
-  }
-
-  _render() {
+  render() {
     const wrapperVideo = document.createElement('DIV');
     wrapperVideo.classList.add(`${PLAYER_PREFIX_NAME}-controller-wrap`);
     return wrapperVideo;
