@@ -10,20 +10,26 @@
   </style>
 </head>
 <body>
-  <h1>Yoon Player Test</h1>
+  <h1>Yoon Player Test d</h1>
 
-  <div class="wrap-player">
+  <div class="wrap-video">
+    <video id="video">
+      <source src=http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4 type=video/mp4>
+    </video>
+  </div>
+
+  <!-- <div class="wrap-player">
     <div id="player" class="player">
       <video>
-        <!-- <source src=http://techslides.com/demos/sample-videos/small.webm type=video/webm> 
+        <source src=http://techslides.com/demos/sample-videos/small.webm type=video/webm> 
         <source src=http://techslides.com/demos/sample-videos/small.ogv type=video/ogg> 
-          <source src=http://techslides.com/demos/sample-videos/small.3gp type=video/3gp> -->
+          <source src=http://techslides.com/demos/sample-videos/small.3gp type=video/3gp>
         <source src=http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4 type=video/mp4>
       </video>
     </div>
-  </div>
+  </div> -->
 
-  <div id="controller" class="controller">
+  <!-- <div id="controller" class="controller">
     <button id="btn-play">재생</button>
     <button id="btn-pause">일시정지</button>
     <button id="btn-stop">정지</button>
@@ -35,15 +41,25 @@
       <span id="current-time"></span> /
       <span id="total-time"></span>
     </div>
-  </div>  
+  </div>   -->
 
-  <div id="bar-track" class="bar-track">
+  <!-- <div id="bar-track" class="bar-track">
     <div id="wrap-bar" class="wrap-bar">
       <div id="loaded-bar" class="loaded-bar"></div>
       <div id="thumb-bar" class="thumb-bar"></div>
       <div id="play-bar" class="play-bar"></div>
       <p id="track-point" class="track-point"></p>
     </div>
-  </div>
+  </div> -->
+
+  <script>
+    var container = document.querySelector('#video');
+    var option = {
+      isPoster: true, // poster 노출여부
+    };
+
+    var player = new YoonPlayer(container, option);
+    player.setData(); // player data 설정
+  </script>
 </body>
 </html>

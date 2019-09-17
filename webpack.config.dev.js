@@ -55,7 +55,8 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html',
-      filename: './index.html'
+      filename: './index.html',
+      inject: 'head', // script 삽입위치
     }),
   ]
 };
