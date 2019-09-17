@@ -1,28 +1,25 @@
-import Const from '../const';
+import BaseComponent from './baseComponent';
+import constName from '../const';
 
-class VideoComponent {
-  constructor(wrapperPlayer, cloneContainer) {
-    this.wrapperPlayer = wrapperPlayer;
-    this.container = cloneContainer;
+const {
+  PLAYER_PREFIX_NAME,
+} = constName;
+
+class VideoComponent extends BaseComponent {
+  constructor(params) {
+    super(params.wrapperPlayer);
+    this.container = params.cloneContainer;
 
     this._init();
   }
 
-  get wrapperVideo() {
-    return this.wrapper;
-  }
-
-  set wrapperVideo(wrapperVideo) {
-    this.wrapper = wrapperVideo;
-  }
-
   _init() {
-    this.wrapperVideo = this._render();
+    this.wrapperElement = this._render();
   }
 
   _render() {
     const wrapperVideo = document.createElement('DIV');
-    wrapperVideo.classList.add(`${Const.PLAYER_PREFIX_NAME}-video-wrap`);
+    wrapperVideo.classList.add(`${PLAYER_PREFIX_NAME}-video-wrap`);
     wrapperVideo.appendChild(this.container);
     return wrapperVideo;
   }

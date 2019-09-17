@@ -1,11 +1,11 @@
-import PlayerBase from './playerBase';
+import BasePlayer from './basePlayer';
 /**
  * 
  * 기본 Player
  * 
  */
 
-class DefaultPlayer extends PlayerBase {
+class DefaultPlayer extends BasePlayer {
   constructor(container, option) {
     super(container, option);
   }

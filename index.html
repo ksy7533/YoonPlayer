@@ -14,7 +14,7 @@
 
   <div class="wrap-video">
     <video id="video">
-      <source src=http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4 type=video/mp4>
+      <!-- <source src=http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4 type=video/mp4> -->
     </video>
   </div>
 
@@ -58,8 +58,15 @@
       isPoster: true, // poster 노출여부
     };
 
+    var videoList = [{
+      title: '테스트',
+      src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      type: 'video/mp4',
+    }];
+
     var player = new YoonPlayer(container, option);
-    player.setData(); // player data 설정
+    player.setData(videoList); // player data 설정
+
   </script>
 </body>
 </html>
