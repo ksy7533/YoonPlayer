@@ -8,7 +8,8 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     filename: 'js/yoonPlayer.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    library: 'YoonPlayer',
   },
   devServer: {
     contentBase: path.resolve("./dist"),

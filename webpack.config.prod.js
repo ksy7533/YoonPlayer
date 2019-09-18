@@ -8,7 +8,8 @@ module.exports = {
   mode: "production",
   output: {
     filename: 'js/bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    library: 'YoonPlayer',
   },
   module: {
     rules: [

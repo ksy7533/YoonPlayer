@@ -57,16 +57,15 @@
     var option = {
       isPoster: true, // poster 노출여부
     };
-
     var videoList = [{
       title: '테스트',
       src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
       type: 'video/mp4',
     }];
 
-    var player = new YoonPlayer(container, option);
-    player.setData(videoList); // player data 설정
-
+    var Player = YoonPlayer.defaultPlayer; // 기본 플레이어
+    var player1 = new Player(container, option);
+    player1.setData(videoList); // player data 설정
   </script>
 </body>
 </html>

@@ -3,4 +3,6 @@ import defaultPlayer from './player/defaultPlayer';
 import './polyfill';
 import '../css/base.scss';
 
-window.YoonPlayer = window.YoonPlayer || defaultPlayer;
+export {
+  defaultPlayer, // 기본 플레이어
+};
