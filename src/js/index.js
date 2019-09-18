@@ -1,4 +1,4 @@
-import defaultPlayer from './player/defaultPlayer';
+import defaultPlayer from './players/defaultPlayer';
 
 import './polyfill';
 import '../css/base.scss';

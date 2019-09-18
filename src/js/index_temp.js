@@ -1,5 +1,5 @@
 import '../css/base.scss';
-import {throttle} from './util';
+import {throttle} from './utils';
 
 // dom
 const $video = document.querySelector('video');

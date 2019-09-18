@@ -1,4 +1,4 @@
-import { VideoComponent, ControllerComponent } from '../component';
+import { VideoComponent, ControllerComponent } from '../components';
 import constName from '../const';
 
 const {
