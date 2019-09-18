@@ -8,7 +8,7 @@ const {
 /**
  * Player 기본 옵션
  */
-let default_option = {
+const defaultOption = {
   device: 'pc', // 디바이스 기기
   isPoster: false, // poster 노출 여부
 };
@@ -19,7 +19,7 @@ let default_option = {
 class BasePlayer {
   constructor(container, option) {
     this.container = container;
-    this.option = Object.assign(default_option, option);
+    this.option = Object.assign(defaultOption, option);
 
     this._init();
   }
@@ -42,17 +42,17 @@ class BasePlayer {
     parentOfContainer.removeChild(this.container);
     parentOfContainer.appendChild(wrapperPlayer);
 
-    this._renderBasicComponent({wrapperPlayer, cloneContainer});
+    this._renderBasicComponent({ wrapperPlayer, cloneContainer });
   }
 
   /**
    * Player에서 기본적으로 필요한 콤포넌트 렌더링
    */
-  _renderBasicComponent({wrapperPlayer, cloneContainer}) {
-    let arrComponent = [];
-    arrComponent.push(new VideoComponent({wrapperPlayer, cloneContainer}));
-    arrComponent.push(new ControllerComponent({wrapperPlayer}));
-    arrComponent.forEach(component => wrapperPlayer.appendChild(component.render()));
+  _renderBasicComponent({ wrapperPlayer, cloneContainer }) {
+    const arrComponent = [];
+    arrComponent.push(new VideoComponent({ wrapperPlayer, cloneContainer }));
+    arrComponent.push(new ControllerComponent({ wrapperPlayer }));
+    arrComponent.forEach((component) => wrapperPlayer.appendChild(component.render()));
   }
 
   /**

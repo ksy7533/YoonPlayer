@@ -5,4 +5,3 @@ class LayerComponent {
 }
 
 export default LayerComponent;
-

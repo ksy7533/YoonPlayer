@@ -18,4 +18,3 @@ class ControllerComponent extends BaseComponent {
 }
 
 export default ControllerComponent;
-

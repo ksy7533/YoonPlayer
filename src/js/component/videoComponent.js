@@ -20,4 +20,3 @@ class VideoComponent extends BaseComponent {
 }
 
 export default VideoComponent;
-

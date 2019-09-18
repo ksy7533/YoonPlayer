@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: ['@babel/polyfill', './src/js/index.js'],
-  mode: "development",
+  mode: 'development',
   devtool: 'inline-source-map',
   output: {
     filename: 'js/yoonPlayer.js',
@@ -12,9 +12,9 @@ module.exports = {
     library: 'YoonPlayer',
   },
   devServer: {
-    contentBase: path.resolve("./dist"),
-    index: "index.html",
-    port: 9000
+    contentBase: path.resolve('./dist'),
+    index: 'index.html',
+    port: 9000,
   },
   module: {
     rules: [
@@ -24,33 +24,33 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-              presets: ['@babel/preset-env']
-          }
-        }
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
       {
         test: /\.scss$/,
         use: [
-          'style-loader','css-loader','sass-loader',
-        ]
+          'style-loader', 'css-loader', 'sass-loader',
+        ],
       },
       {
         test: /\.(png|svg|jpe?g|gif)$/,
-        loader:'file-loader',
+        loader: 'file-loader',
         options: {
           publicPath: './dist',
           name: '[name].[ext]?[hash]',
-        }
+        },
       },
       {
         test: /\.(png|svg|jpe?g|gif)$/,
-        loader:'url-loader',
+        loader: 'url-loader',
         options: {
           publicPath: './dist',
-          limit: 10000
-        }
-      }
-    ]
+          limit: 10000,
+        },
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -59,5 +59,5 @@ module.exports = {
       filename: './index.html',
       inject: 'head', // script 삽입위치
     }),
-  ]
+  ],
 };
