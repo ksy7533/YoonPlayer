@@ -1,6 +1,6 @@
-import ControllerComponent from './controllerComponent';
-import LayerComponent from './layerComponent';
-import VideoComponent from './videoComponent';
+import ControllerComponent from './controllerComponent/controllerComp';
+import LayerComponent from './layerComponent/layerComp';
+import VideoComponent from './videoComponent/videoComp';
 
 export {
   ControllerComponent,

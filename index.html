@@ -7,6 +7,8 @@
   <title>Yoon-Player</title>
   <style>
     * {margin:0;padding:0;}
+
+    .wrap-video{width:500px;height:350px;}
   </style>
 </head>
 <body>
@@ -62,9 +64,8 @@
       src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
       type: 'video/mp4',
     }];
-
-    var Player = YoonPlayer.defaultPlayer; // 기본 플레이어
-    var player1 = new Player(container, option);
+    
+    var player1 = YoonPlayer.defaultPlayer(container, option);
     player1.setData(videoList); // player data 설정
   </script>
 </body>

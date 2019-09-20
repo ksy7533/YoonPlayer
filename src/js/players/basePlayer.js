@@ -13,14 +13,19 @@ const defaultOption = {
   isPoster: false, // poster 노출 여부
 };
 
-/**
- * Player 기본 클래스
- */
 class BasePlayer {
+  /**
+   * Player 기본 클래스
+   * @param {HTMLVideoElement} container video 엘리멘트
+   * @param {Object} option player option 값
+   */
   constructor(container, option) {
-    this.container = container;
+    this.video = container; // 현재 재생중인 비디오 객체
     this.option = Object.assign(defaultOption, option);
 
+    this.videoComponent = null; // video component 객체
+    this.controllerComponent = null; // controller component 객체
+    this.arrComponent = []; // component 객체의 배열
     this._init();
   }
 
@@ -28,7 +33,19 @@ class BasePlayer {
    * class 초기화
    */
   _init() {
+    this._registerComponent();
     this._renderWrapper();
+  }
+
+  /**
+   * 각 Component 객체를 생성하여 배열에 담아둔다
+   */
+  _registerComponent() {
+    const { video } = this;
+    this.videoComponent = new VideoComponent({ video });
+    this.controllerComponent = new ControllerComponent({ video });
+    this.arrComponent.push(this.videoComponent);
+    this.arrComponent.push(this.controllerComponent);
   }
 
   /**
@@ -37,34 +54,27 @@ class BasePlayer {
   _renderWrapper() {
     const wrapperPlayer = document.createElement('DIV');
     wrapperPlayer.classList.add(`${PLAYER_PREFIX_NAME}-player-wrap`);
-    const cloneContainer = this.container.cloneNode(true);
-    const parentOfContainer = this.container.parentElement;
-    parentOfContainer.removeChild(this.container);
+    const parentOfContainer = this.video.parentElement;
+    parentOfContainer.removeChild(this.video);
     parentOfContainer.appendChild(wrapperPlayer);
-
-    this._renderBasicComponent({ wrapperPlayer, cloneContainer });
+    this._renderBasicComponent({ wrapperPlayer });
   }
 
   /**
    * Player에서 기본적으로 필요한 콤포넌트 렌더링
+   * @param {Object} param.wrapperPlayer player를 감싸주는 wrapper
    */
-  _renderBasicComponent({ wrapperPlayer, cloneContainer }) {
-    const arrComponent = [];
-    arrComponent.push(new VideoComponent({ wrapperPlayer, cloneContainer }));
-    arrComponent.push(new ControllerComponent({ wrapperPlayer }));
-    arrComponent.forEach((component) => wrapperPlayer.appendChild(component.render()));
+  _renderBasicComponent({ wrapperPlayer }) {
+    this.arrComponent.forEach((component) => wrapperPlayer.appendChild(component.render()));
   }
 
   /**
    * Player에서 사용될 video data array를 받는 함수
+   * @param {Array} videoList video data array
    */
   setData(videoList) {
-    const videoWrapper = document.querySelector(`.${PLAYER_PREFIX_NAME}-video-wrap`);
-    const video = videoWrapper.querySelector('video');
-    const elSource = document.createElement('source');
-    elSource.setAttribute('src', videoList[0].src);
-    elSource.setAttribute('type', videoList[0].type);
-    video.appendChild(elSource);
+    this.video.setAttribute('src', videoList[0].src);
+    this.video.setAttribute('type', videoList[0].type);
   }
 }
 
